@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research — Md Imtiazul Kabir, PhD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --black: #111111;
+      --gray:  #555555;
+      --light: #e0e0e0;
+      --red:   #cc0000;
+      --nav-h: 64px;
+      --bg:    #f0f2f2;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--black);
+      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ───────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--light);
+      z-index: 200;
+    }
+    .nav-logo {
+      font-weight: 900; font-size: 26px;
+      letter-spacing: -0.03em; color: var(--black); text-decoration: none;
+    }
+    .nav-logo span { color: var(--red); }
+
+    .hamburger {
+      width: 44px; height: 44px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      gap: 6px; cursor: pointer; background: none; border: none; z-index: 300;
+    }
+    .hamburger span {
+      display: block; width: 26px; height: 2px;
+      background: var(--black); transition: all 0.3s ease; transform-origin: center;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .menu-overlay {
+      position: fixed; top: 0; right: -100%;
+      width: 360px; height: 100vh; background: var(--black);
+      z-index: 250; display: flex; flex-direction: column;
+      justify-content: center; padding: 80px 56px;
+      transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .menu-overlay.open { right: 0; }
+    .menu-overlay ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .menu-overlay ul li { overflow: hidden; }
+    .menu-overlay ul li a {
+      font-weight: 800; font-size: 26px; letter-spacing: -0.01em;
+      color: var(--white); text-decoration: none; line-height: 1.3;
+      display: block; transform: translateY(100%); transition: color 0.2s;
+    }
+    .menu-overlay.open ul li a { animation: slideUp 0.4s forwards; }
+    .menu-overlay ul li:nth-child(1) a { animation-delay: 0.05s; }
+    .menu-overlay ul li:nth-child(2) a { animation-delay: 0.10s; }
+    .menu-overlay ul li:nth-child(3) a { animation-delay: 0.15s; }
+    .menu-overlay ul li:nth-child(4) a { animation-delay: 0.20s; }
+    .menu-overlay ul li:nth-child(5) a { animation-delay: 0.25s; }
+    .menu-overlay ul li:nth-child(6) a { animation-delay: 0.30s; }
+    .menu-overlay ul li:nth-child(7) a { animation-delay: 0.35s; }
+    .menu-overlay ul li a:hover { color: var(--red); }
+    .menu-num { font-size: 11px; font-weight: 400; color: #555; letter-spacing: 0.1em; margin-right: 10px; }
+    .menu-hint { margin-top: 48px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #444; }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ── PAGE ──────────────────────────────── */
+    .page {
+      padding-top: var(--nav-h);
+      max-width: 960px;
+      margin: 0 auto;
+      padding-left: 44px;
+      padding-right: 44px;
+      padding-bottom: 100px;
+    }
+
+    /* ── PAGE HEADER ───────────────────────── */
+    .page-header {
+      padding-top: 64px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--black);
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .page-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .page-eyebrow::before {
+      content: ''; display: inline-block;
+      width: 16px; height: 16px; background: var(--red); flex-shrink: 0;
+    }
+    .page-title {
+      font-weight: 400; font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.0; letter-spacing: -0.01em;
+      color: var(--black); margin-bottom: 28px; white-space: nowrap;
+    }
+    .page-intro {
+      font-size: 18px; font-weight: 400; color: var(--black);
+      line-height: 1.6; max-width: 680px;
+    }
+
+    /* ── METRICS STRIP ─────────────────────── */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--black);
+      margin-top: 48px;
+      opacity: 0;
+      animation: fadeUp 0.5s 0.25s forwards;
+    }
+    .metric-cell {
+      padding: 24px 28px;
+      border-right: 1px solid var(--black);
+    }
+    .metric-cell:last-child { border-right: none; }
+    .metric-num {
+      font-weight: 900; font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: -0.03em; line-height: 1; color: var(--black);
+      margin-bottom: 6px;
+    }
+    .metric-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--gray);
+    }
+
+    /* ── SECTION LABEL ─────────────────────── */
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--gray);
+      padding-top: 48px; opacity: 0; animation: fadeUp 0.5s forwards;
+    }
+
+    /* ── RESEARCH FOCUS ────────────────────── */
+    .focus-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--black); margin-top: 16px;
+    }
+    .focus-card {
+      padding: 24px 22px 28px;
+      border-right: 1px solid var(--black);
+      border-bottom: 1px solid var(--black);
+    }
+    .focus-card:nth-child(3n) { border-right: none; }
+    .focus-card:nth-child(4), .focus-card:nth-child(5), .focus-card:nth-child(6) { border-bottom: none; }
+    .focus-num { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--red); margin-bottom: 8px; }
+    .focus-title { font-weight: 900; font-size: clamp(14px, 1.6vw, 18px); letter-spacing: -0.01em; line-height: 1.2; color: var(--black); margin-bottom: 10px; }
+    .focus-desc { font-size: 13px; font-weight: 400; color: var(--gray); line-height: 1.6; }
+
+    /* ── PUBLICATIONS ──────────────────────── */
+    .pub-list { margin-top: 16px; }
+
+    .pub-item {
+      border-bottom: 1px solid var(--black);
+      padding: 24px 0;
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 20px;
+      opacity: 0;
+      animation: fadeUp 0.5s forwards;
+    }
+    .pub-item:first-child { border-top: 1px solid var(--black); }
+
+    .pub-num {
+      font-weight: 900; font-size: 24px; letter-spacing: -0.03em;
+      color: var(--light); line-height: 1; padding-top: 4px;
+    }
+    .pub-type {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 6px;
+    }
+    .pub-title {
+      font-weight: 700; font-size: 14px; color: var(--black);
+      line-height: 1.5; margin-bottom: 6px;
+    }
+    .pub-authors {
+      font-size: 12px; font-weight: 400; color: var(--gray);
+      line-height: 1.5; margin-bottom: 5px;
+    }
+    .pub-meta {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .pub-journal {
+      font-size: 12px; font-weight: 600; color: var(--black); font-style: italic;
+    }
+    .pub-citations {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--gray);
+    }
+    .pub-doi {
+      font-size: 11px; font-weight: 600; color: var(--red);
+      text-decoration: none; letter-spacing: 0.04em;
+    }
+    .pub-doi:hover { text-decoration: underline; }
+
+    /* ── ABSTRACTS ─────────────────────────── */
+    .abstract-list { margin-top: 16px; }
+    .abstract-item {
+      border-bottom: 1px solid var(--black);
+      padding: 22px 0;
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 20px;
+      opacity: 0;
+      animation: fadeUp 0.5s forwards;
+    }
+    .abstract-item:first-child { border-top: 1px solid var(--black); }
+    .abstract-num { font-weight: 900; font-size: 24px; letter-spacing: -0.03em; color: var(--light); line-height: 1; padding-top: 4px; }
+    .abstract-conference { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); margin-bottom: 6px; }
+    .abstract-title { font-weight: 700; font-size: 14px; color: var(--black); line-height: 1.5; margin-bottom: 6px; }
+    .abstract-authors { font-size: 12px; font-weight: 400; color: var(--gray); line-height: 1.5; }
+
+    /* ── FOOTER NAV ────────────────────────── */
+    .footer-nav {
+      display: flex; justify-content: space-between;
+      margin-top: 64px; border-top: 1px solid var(--black); padding-top: 32px;
+    }
+    .footer-nav a { text-decoration: none; display: flex; flex-direction: column; gap: 4px; transition: opacity 0.2s; }
+    .footer-nav a:hover { opacity: 0.6; }
+    .fnl-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+    .fnl-title { font-weight: 900; font-size: 22px; letter-spacing: -0.02em; color: var(--black); }
+    .footer-nav .next { text-align: right; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .page { padding-left: 20px; padding-right: 20px; }
+      .menu-overlay { width: 100%; }
+      .metrics { grid-template-columns: 1fr 1fr; }
+      .metric-cell:nth-child(2) { border-right: none; }
+      .metric-cell:nth-child(3) { border-top: 1px solid var(--black); border-right: none; }
+      .metric-cell:nth-child(4) { border-top: 1px solid var(--black); }
+      .focus-grid { grid-template-columns: 1fr; }
+      .focus-card { border-right: none !important; }
+      .focus-card:nth-child(4), .focus-card:nth-child(5) { border-bottom: 1px solid var(--black); }
+      .focus-card:last-child { border-bottom: none; }
+      .pub-item, .abstract-item { grid-template-columns: 32px 1fr; gap: 12px; }
+      .footer-nav { flex-direction: column; gap: 28px; }
+      .footer-nav .next { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="index.html">Kabir<span>.</span></a>
+    <button class="hamburger" id="menuBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- SLIDE MENU -->
+  <div class="menu-overlay" id="menuOverlay">
+    <ul>
+      <li><a href="index.html"><span class="menu-num">01</span>Home</a></li>
+      <li><a href="experience.html"><span class="menu-num">02</span>Experience</a></li>
+      <li><a href="education.html"><span class="menu-num">03</span>Education</a></li>
+      <li><a href="research.html"><span class="menu-num">04</span>Research</a></li>
+      <li><a href="training.html"><span class="menu-num">05</span>Training &amp; Skills</a></li>
+      <li><a href="contact.html"><span class="menu-num">06</span>Contact</a></li>
+    </ul>
+    <p class="menu-hint">Click anywhere to close</p>
+  </div>
+
+  <div class="page">
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+      <p class="page-eyebrow">04 — Research Output</p>
+      <h1 class="page-title">Research</h1>
+      <p class="page-intro">Translational research spanning cancer therapeutics, metabolic disorders, and infectious disease — with peer-reviewed publications across pharmacology, oncology, and natural product research.</p>
+    </header>
+
+    <!-- METRICS -->
+    <div class="metrics">
+      <div class="metric-cell">
+        <div class="metric-num">297</div>
+        <div class="metric-label">Total Citations</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-num">9</div>
+        <div class="metric-label">h-index</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-num">9</div>
+        <div class="metric-label">i10-index</div>
+      </div>
+      <div class="metric-cell">
+        <div class="metric-num">14+</div>
+        <div class="metric-label">Publications</div>
+      </div>
+    </div>
+
+    <!-- RESEARCH FOCUS -->
+    <p class="section-label" style="animation-delay:0.3s;">Research Focus Areas</p>
+    <div class="focus-grid">
+      <div class="focus-card">
+        <div class="focus-num">01</div>
+        <div class="focus-title">Cancer Therapeutics &amp; Tumor Modeling</div>
+        <div class="focus-desc">Orthotopic TNBC, AOM/DSS colorectal, and MNU-induced breast cancer models to study drug efficacy and MOA.</div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-num">02</div>
+        <div class="focus-title">Obesity &amp; Metabolic Disorders</div>
+        <div class="focus-desc">Diet-induced obesity models studying the intersection of metabolic dysfunction and cancer progression.</div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-num">03</div>
+        <div class="focus-title">Infectious Disease &amp; HTP Screening</div>
+        <div class="focus-desc">Anti-bacterial synergy, bacterial resistance, and therapeutic regimen development using high-throughput platforms.</div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-num">04</div>
+        <div class="focus-title">Tumor Microenvironment (TME)</div>
+        <div class="focus-desc">Immune cell infiltration, cytokine profiling, and spatial biomarker discovery under pharmacological intervention.</div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-num">05</div>
+        <div class="focus-title">PK/PD &amp; Translational Pharmacology</div>
+        <div class="focus-desc">Target engagement and pharmacodynamic readouts integrated with tissue-level findings for early drug discovery.</div>
+      </div>
+      <div class="focus-card">
+        <div class="focus-num">06</div>
+        <div class="focus-title">Natural Products &amp; Thrombolysis</div>
+        <div class="focus-desc">Plant-derived metabolites, antioxidant activity, thrombolytic potential, and anticancer properties from Asian medicinal plants.</div>
+      </div>
+    </div>
+
+    <!-- PUBLICATIONS -->
+    <p class="section-label" style="animation-delay:0.35s;">Peer-Reviewed Publications</p>
+    <div class="pub-list">
+
+      <div class="pub-item" style="animation-delay:0.4s;">
+        <div class="pub-num">01</div>
+        <div>
+          <div class="pub-type">Journal Article · 2023</div>
+          <div class="pub-title">Anti-cancer Efficacy of Metformin: Recent Updates on Breast and Other Cancers.</div>
+          <div class="pub-authors">Kabir, M.I., Kumar, R., Bugata, L.S.P. and Raina, K.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">Current Pharmacology Reports, 9(5), pp.284–328.</span>
+            <span class="pub-citations">Cited: 2</span>
+            <a class="pub-doi" href="https://doi.org/10.1007/s40495-023-00330-4" target="_blank" rel="noopener">DOI ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:0.52s;">
+        <div class="pub-num">01</div>
+        <div>
+          <div class="pub-type">Journal Article · 2022</div>
+          <div class="pub-title">Gender-based effect of absence of gut microbiota on the protective efficacy of Bifidobacterium longum-fermented rice bran diet against inflammation-associated colon tumorigenesis.</div>
+          <div class="pub-authors">Kumar, R., Maurya, A.K., Parker, K.D., Kant, R., Ibrahim, H., Kabir, M.I., et al.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">Molecular Carcinogenesis, 61(10), pp.941–957.</span>
+            <span class="pub-citations">Cited: 16</span>
+            <a class="pub-doi" href="https://doi.org/10.1002/mc.23437" target="_blank" rel="noopener">DOI ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:0.58s;">
+        <div class="pub-num">03</div>
+        <div>
+          <div class="pub-type">Journal Article · 2021</div>
+          <div class="pub-title">Therapeutic Potentials of Syzygium fruticosum Fruit (Seed) Reflected into an Array of Pharmacological Assays and Prospective Receptors-Mediated Pathways.</div>
+          <div class="pub-authors">Moni, J.N.R., Adnan, M., Tareq, A.M., Kabir, M.I., et al.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">Life, 11(2), 155.</span>
+            <span class="pub-citations">Cited: 53</span>
+            <a class="pub-doi" href="https://doi.org/10.3390/life11020155" target="_blank" rel="noopener">DOI ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:0.64s;">
+        <div class="pub-num">04</div>
+        <div>
+          <div class="pub-type">Journal Article · 2020</div>
+          <div class="pub-title">Organic Extracts of Asian Plants Potentially Support Thrombolysis in Varied BMI Groups.</div>
+          <div class="pub-authors">Kabir, M.I., Rahman, M.D.M., Rahman, M.A., Kamal, A.T.M.M., Adnan, R., et al.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">Sains Malaysiana, 49(7), pp.1669–1686.</span>
+            <a class="pub-doi" href="https://doi.org/10.17576/jsm-2020-4907-18" target="_blank" rel="noopener">DOI ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:0.70s;">
+        <div class="pub-num">05</div>
+        <div>
+          <div class="pub-type">Journal Article · 2019</div>
+          <div class="pub-title">Assessment of anti-nociceptive and anthelmintic activities of Vitex Peduncularis Wall. leaves and in silico molecular docking, ADME/T, and PASS prediction studies.</div>
+          <div class="pub-authors">Auniq, R.B.J., Chy, M.N.U., Adnan, M., Roy, A., Islam, M.A., Khan, T.N., Hasan, M.Z., Kabir, M.I., et al.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">J. Complement. Med. Res, 10(4), pp.170–185.</span>
+            <span class="pub-citations">Cited: 31</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:0.76s;">
+        <div class="pub-num">06</div>
+        <div>
+          <div class="pub-type">Journal Article · 2017</div>
+          <div class="pub-title">A Brief Journey of Tocotrienols as Anticancer Agents.</div>
+          <div class="pub-authors">Kabir, I., Rahman, M., Rahman, K., Islam, T.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">J Silico Vitr Pharmacol, 3, 19.</span>
+            <span class="pub-citations">Cited: 2</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:0.82s;">
+        <div class="pub-num">07</div>
+        <div>
+          <div class="pub-type">Journal Article · 2017</div>
+          <div class="pub-title">Emerging Trends in Ocular Drug Delivery: A Review on Recent Updates.</div>
+          <div class="pub-authors">Imtiazul, M.K., Auniq, R.B.Z.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">J. Neoplasm, 2, pp.7–11.</span>
+            <span class="pub-citations">Cited: 2</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:0.88s;">
+        <div class="pub-num">08</div>
+        <div>
+          <div class="pub-type">Journal Article · 2017</div>
+          <div class="pub-title">Natural Sources of Tocotrienols: A Note on Absorption.</div>
+          <div class="pub-authors">Kabir, M.I., Adnan, M., Rahman, M.M.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">J. Silico Vitr. Pharmacol, 3, pp.1–5.</span>
+            <span class="pub-citations">Cited: 15</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:0.94s;">
+        <div class="pub-num">09</div>
+        <div>
+          <div class="pub-type">Journal Article · 2016</div>
+          <div class="pub-title">Antioxidant, Antidiarrheal, Hypoglycemic and Thrombolytic Activities of Organic and Aqueous Extracts of Hopea odorata Leaves and In Silico PASS Prediction.</div>
+          <div class="pub-authors">Kabir, M.S.H., Hossain, M.M., Kabir, M.I., Ahmad, S., Chakrabarty, N., Rahman, M.A., Rahman, M.M.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">BMC Complementary &amp; Alternative Medicine, 16(1), 474.</span>
+            <span class="pub-citations">Cited: 2</span>
+            <a class="pub-doi" href="https://doi.org/10.1186/s12906-016-1461-x" target="_blank" rel="noopener">DOI ↗</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:1.0s;">
+        <div class="pub-num">10</div>
+        <div>
+          <div class="pub-type">Journal Article · 2016</div>
+          <div class="pub-title">Phytochemical Screening, Antioxidant, Thrombolytic, Alpha-amylase Inhibition and Cytotoxic Activities of Ethanol Extract of Steudnera colocasiifolia K. Koch Leaves.</div>
+          <div class="pub-authors">Kabir, M.S.H., Hossain, M.M., Kabir, M.I., Rahman, M.M., Hasanat, A., Emran, T.B., et al.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">Journal of Young Pharmacists, 8(4), 391.</span>
+            <span class="pub-citations">Cited: 73</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:1.06s;">
+        <div class="pub-num">11</div>
+        <div>
+          <div class="pub-type">Journal Article · 2016</div>
+          <div class="pub-title">Cytotoxic and Thrombolytic Activity of Roots of Musa paradisiaca (Linn).</div>
+          <div class="pub-authors">Chowdhury, K.A.A., Hosen, S.M.Z., Islam, M.N., Huq, I., Adnan, M., Chy, M.N.U., Kabir, M.I., et al.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">The Pharma Innovation, 5(8, Part B), 97.</span>
+            <span class="pub-citations">Cited: 11</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:1.12s;">
+        <div class="pub-num">12</div>
+        <div>
+          <div class="pub-type">Journal Article · 2016</div>
+          <div class="pub-title">Antioxidant, Cytotoxic and Thrombolytic Activity of Leaves of Kalanchoe pinnata (Lam.) Pers.</div>
+          <div class="pub-authors">Chowdhury, K.A.A., Huq, M.E., Ali, M.S., Huq, I., Royhan, M.J., Adnan, M., Chy, M.N.U., Kabir, M.I., et al.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">Journal of Pharmacognosy and Phytochemistry, 5(4), 309.</span>
+            <span class="pub-citations">Cited: 14</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:1.18s;">
+        <div class="pub-num">13</div>
+        <div>
+          <div class="pub-type">Journal Article · 2015</div>
+          <div class="pub-title">Investigation of In Vitro Anti-Arthritic and Membrane Stabilizing Activity of Ethanol Extracts of Three Bangladeshi Plants.</div>
+          <div class="pub-authors">Hossain, M.M., Kabir, M.S.H., Hasanat, A., Kabir, M.I., Chowdhury, T.A., et al.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">The Pharma Innovation, 4(1, Part B), 76.</span>
+            <span class="pub-citations">Cited: 26</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item" style="animation-delay:1.24s;">
+        <div class="pub-num">14</div>
+        <div>
+          <div class="pub-type">Journal Article · 2015</div>
+          <div class="pub-title">In Vitro Erythrocyte Membrane Stabilization Properties of Solanum aethiopicum L. Fruit Extracts.</div>
+          <div class="pub-authors">Emran, T.B., Uddin, M.M.N., Rahman, M.A., Hossain, M.I., Islam, M.M., Kabir, M.I.</div>
+          <div class="pub-meta">
+            <span class="pub-journal">Biores Comm, 1(2), pp.111–115.</span>
+            <span class="pub-citations">Cited: 9</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CONFERENCE ABSTRACTS -->
+    <p class="section-label" style="animation-delay:0.38s;">Abstracts &amp; Conference Presentations</p>
+    <div class="abstract-list">
+
+      <div class="abstract-item" style="animation-delay:0.42s;">
+        <div class="abstract-num">01</div>
+        <div>
+          <div class="abstract-conference">AACR Annual Meeting 2026 · Accepted</div>
+          <div class="abstract-title">Differential impact of metformin-based prevention and therapeutic strategies on aberrant metabolic signals associated with TNBC during high fat/high fructose diet feeding.</div>
+          <div class="abstract-authors">Kabir, M.I., Kumar, R., Bugata, L.S.P., Islam, M.N., and Raina, K. — Control No. 5650</div>
+        </div>
+      </div>
+
+      <div class="abstract-item" style="animation-delay:0.50s;">
+        <div class="abstract-num">02</div>
+        <div>
+          <div class="abstract-conference">ASM Microbe 2026 · 2 Abstracts Submitted</div>
+          <div class="abstract-title">High-throughput drug screening supporting translational infectious disease research.</div>
+          <div class="abstract-authors">Kabir, M.I. et al. — University of Texas at Tyler, School of Medicine</div>
+        </div>
+      </div>
+
+      <div class="abstract-item" style="animation-delay:0.58s;">
+        <div class="abstract-num">03</div>
+        <div>
+          <div class="abstract-conference">Cancer Research · 2024</div>
+          <div class="abstract-title">Modulation of cytokine and chemokine profiles in pancreatic tumors and plasma via stage-specific intervention with Momordica Charantia juice in the LSL-KrasG12D/+, p48Cre/+ mouse model.</div>
+          <div class="abstract-authors">Bugata, L.S.P., Kumar, R., Kabir, M.I., et al. — Cancer Research, 84(6_Supplement), pp.7304–7304.</div>
+        </div>
+      </div>
+
+      <div class="abstract-item" style="animation-delay:0.66s;">
+        <div class="abstract-num">04</div>
+        <div>
+          <div class="abstract-conference">Cancer Research · 2024</div>
+          <div class="abstract-title">Modulation of immune infiltration patterns in inflammation-associated colorectal cancer through rice bran-based dietary strategies.</div>
+          <div class="abstract-authors">Kumar, R., Bugata, L.S.P., Kabir, M.I., et al. — Cancer Research, 84(6_Supplement), pp.2180–2180.</div>
+        </div>
+      </div>
+
+      <div class="abstract-item" style="animation-delay:0.74s;">
+        <div class="abstract-num">05</div>
+        <div>
+          <div class="abstract-conference">Cancer Research · 2023</div>
+          <div class="abstract-title">Differential impact of rice bran based dietary interventions during inflammation-associated colorectal cancer on distinct immune infiltrates and their spatial distribution signature.</div>
+          <div class="abstract-authors">Kumar, R., Maurya, A.K., Bugata, L.S., Kabir, M.I., et al. — Cancer Research, 83(7_Supplement), pp.4229–4229.</div>
+        </div>
+      </div>
+
+      <div class="abstract-item" style="animation-delay:0.82s;">
+        <div class="abstract-num">06</div>
+        <div>
+          <div class="abstract-conference">SDSU Allied Health Sciences Symposium · 2022</div>
+          <div class="abstract-title">Gut microbiota dependent and independent effect of fermented and nonfermented diet intervention on inflammation associated colon carcinogenesis.</div>
+          <div class="abstract-authors">Kabir, M.I. — South Dakota State University</div>
+        </div>
+      </div>
+
+      <div class="abstract-item" style="animation-delay:0.90s;">
+        <div class="abstract-num">07</div>
+        <div>
+          <div class="abstract-conference">SDSU Allied Health Sciences Symposium · 2022</div>
+          <div class="abstract-title">Insight into the inhibitory potential of novel biopolymer (PDGA) on the SARS-CoV-2 Spike protein and human ACE2 receptor interaction.</div>
+          <div class="abstract-authors">Kumar, R., Kabir, M.I. — South Dakota State University</div>
+        </div>
+      </div>
+
+    </div>      <div>
+      </div>
+    </div>
+
+    <!-- FOOTER NAV -->
+    <div class="footer-nav">
+      <a href="education.html">
+        <span class="fnl-label">← Back</span>
+        <span class="fnl-title">Education</span>
+      </a>
+      <a href="training.html" class="next">
+        <span class="fnl-label">Next →</span>
+        <span class="fnl-title">Training &amp; Skills</span>
+      </a>
+    </div>
+
+  </div>
+
+  <script>
+    const btn = document.getElementById('menuBtn');
+    const overlay = document.getElementById('menuOverlay');
+    btn.addEventListener('click', () => { btn.classList.toggle('open'); overlay.classList.toggle('open'); });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target.classList.contains('menu-hint')) {
+        btn.classList.remove('open'); overlay.classList.remove('open');
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { btn.classList.remove('open'); overlay.classList.remove('open'); }
+    });
+  </script>
+</body>
+</html>

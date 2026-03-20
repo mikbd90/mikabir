@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Experience — Md Imtiazul Kabir, PhD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --black: #111111;
+      --gray:  #555555;
+      --light: #e0e0e0;
+      --red:   #cc0000;
+      --nav-h: 64px;
+      --bg:    #f0f2f2;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--black);
+      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ───────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 44px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--light);
+      z-index: 200;
+    }
+
+    .nav-logo {
+      font-weight: 900;
+      font-size: 26px;
+      letter-spacing: -0.03em;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--red); }
+
+    .hamburger {
+      width: 44px; height: 44px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      gap: 6px; cursor: pointer;
+      background: none; border: none; z-index: 300;
+    }
+    .hamburger span {
+      display: block; width: 26px; height: 2px;
+      background: var(--black);
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .menu-overlay {
+      position: fixed;
+      top: 0; right: -100%;
+      width: 360px; height: 100vh;
+      background: var(--black);
+      z-index: 250;
+      display: flex; flex-direction: column;
+      justify-content: center;
+      padding: 80px 56px;
+      transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .menu-overlay.open { right: 0; }
+    .menu-overlay ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .menu-overlay ul li { overflow: hidden; }
+    .menu-overlay ul li a {
+      font-weight: 800; font-size: 26px;
+      letter-spacing: -0.01em;
+      color: var(--white); text-decoration: none;
+      line-height: 1.3; display: block;
+      transform: translateY(100%);
+      transition: color 0.2s;
+    }
+    .menu-overlay.open ul li a { animation: slideUp 0.4s forwards; }
+    .menu-overlay ul li:nth-child(1) a { animation-delay: 0.05s; }
+    .menu-overlay ul li:nth-child(2) a { animation-delay: 0.10s; }
+    .menu-overlay ul li:nth-child(3) a { animation-delay: 0.15s; }
+    .menu-overlay ul li:nth-child(4) a { animation-delay: 0.20s; }
+    .menu-overlay ul li:nth-child(5) a { animation-delay: 0.25s; }
+    .menu-overlay ul li:nth-child(6) a { animation-delay: 0.30s; }
+    .menu-overlay ul li a:hover { color: var(--red); }
+    .menu-num { font-size: 11px; font-weight: 400; color: #555; letter-spacing: 0.1em; margin-right: 10px; }
+    .menu-hint { margin-top: 48px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #444; }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ── PAGE WRAPPER ──────────────────────── */
+    .page {
+      padding-top: var(--nav-h);
+      max-width: 960px;
+      margin: 0 auto;
+      padding-left: 44px;
+      padding-right: 44px;
+      padding-bottom: 100px;
+    }
+
+    /* ── PAGE HEADER ───────────────────────── */
+    .page-header {
+      padding-top: 64px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--black);
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .page-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+
+    .page-title {
+      font-weight: 400;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      margin-bottom: 28px;
+      white-space: nowrap;
+    }
+
+    .page-intro {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.6;
+      max-width: 680px;
+    }
+
+    /* ── SECTION LABEL ─────────────────────── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gray);
+      padding: 40px 0 0;
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeUp 0.5s 0.3s forwards;
+    }
+
+    /* ── ACCORDION ─────────────────────────── */
+    .accordion {
+      margin-top: 0;
+    }
+
+    .acc-item {
+      border-bottom: 1px solid var(--black);
+      opacity: 0;
+      animation: fadeUp 0.5s forwards;
+    }
+
+    .acc-item:nth-child(1) { animation-delay: 0.35s; }
+    .acc-item:nth-child(2) { animation-delay: 0.42s; }
+    .acc-item:nth-child(3) { animation-delay: 0.49s; }
+    .acc-item:nth-child(4) { animation-delay: 0.56s; }
+    .acc-item:nth-child(5) { animation-delay: 0.63s; }
+    .acc-item:nth-child(6) { animation-delay: 0.70s; }
+
+    .acc-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 28px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      text-align: left;
+    }
+
+    .acc-trigger-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .acc-dates {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    .acc-role {
+      font-weight: 900;
+      font-size: clamp(18px, 2vw, 26px);
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+      color: var(--black);
+    }
+
+    .acc-org {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray);
+      margin-top: 2px;
+    }
+
+    .acc-chevron {
+      font-size: 24px;
+      color: var(--black);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+      font-style: normal;
+      line-height: 1;
+    }
+
+    .acc-item.open .acc-chevron { transform: rotate(180deg); }
+
+    /* Accordion body */
+    .acc-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.35s ease;
+    }
+
+    .acc-item.open .acc-body {
+      grid-template-rows: 1fr;
+    }
+
+    .acc-body-inner {
+      overflow: hidden;
+    }
+
+    .acc-content {
+      padding-bottom: 36px;
+    }
+
+    .acc-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .acc-bullets li {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--black);
+      line-height: 1.65;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .acc-bullets li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: var(--red);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    .acc-bullets li strong {
+      font-weight: 700;
+    }
+
+    /* ── LEADERSHIP ────────────────────────── */
+    .leadership-section {
+      margin-top: 64px;
+      opacity: 0;
+      animation: fadeUp 0.5s 0.75s forwards;
+    }
+
+    .leadership-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 0;
+    }
+
+    .leadership-list {
+      margin-top: 0;
+    }
+
+    .leadership-item {
+      border-bottom: 1px solid var(--black);
+      padding: 22px 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .leadership-item:first-of-type {
+      border-top: 1px solid var(--black);
+      margin-top: 0;
+    }
+
+    .leadership-title {
+      font-weight: 800;
+      font-size: clamp(16px, 2vw, 22px);
+      letter-spacing: -0.01em;
+      color: var(--black);
+    }
+
+    .leadership-meta {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--gray);
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER NAV ────────────────────────── */
+    .footer-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 64px;
+      border-top: 1px solid var(--black);
+      padding-top: 32px;
+    }
+
+    .footer-nav a {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: opacity 0.2s;
+    }
+
+    .footer-nav a:hover { opacity: 0.6; }
+
+    .fnl-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+
+    .fnl-title {
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      color: var(--black);
+    }
+
+    .footer-nav .next { text-align: right; }
+
+    /* ── ANIMATIONS ────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .page { padding-left: 20px; padding-right: 20px; }
+      .menu-overlay { width: 100%; }
+      .leadership-item { flex-direction: column; gap: 4px; }
+      .leadership-meta { text-align: left; }
+      .footer-nav { flex-direction: column; gap: 28px; }
+      .footer-nav .next { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="index.html">Kabir<span>.</span></a>
+    <button class="hamburger" id="menuBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- SLIDE MENU -->
+  <div class="menu-overlay" id="menuOverlay">
+    <ul>
+      <li><a href="index.html"><span class="menu-num">01</span>Home</a></li>
+      <li><a href="experience.html"><span class="menu-num">02</span>Experience</a></li>
+      <li><a href="education.html"><span class="menu-num">03</span>Education</a></li>
+      <li><a href="research.html"><span class="menu-num">04</span>Research</a></li>
+      <li><a href="training.html"><span class="menu-num">05</span>Training &amp; Skills</a></li>
+      <li><a href="contact.html"><span class="menu-num">06</span>Contact</a></li>
+    </ul>
+    <p class="menu-hint">Click anywhere to close</p>
+  </div>
+
+  <div class="page">
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+      <p class="page-eyebrow">02 — Professional History</p>
+      <h1 class="page-title">Work Experience</h1>
+      <p class="page-intro">8+ years of preclinical and translational research across oncology, metabolic disorders, and infectious disease — from Bangladesh to South Dakota to Texas.</p>
+    </header>
+
+    <!-- RESEARCH EXPERIENCE -->
+    <p class="section-label" style="animation-delay:0.28s;">Research &amp; Professional Experience</p>
+
+    <div class="accordion">
+
+      <!-- 1 -->
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-trigger-left">
+            <span class="acc-dates">Apr 2025 — Present</span>
+            <span class="acc-role">Post Doctoral Researcher</span>
+            <span class="acc-org">University of Texas at Tyler, School of Medicine — Tyler, TX</span>
+          </div>
+          <i class="acc-chevron">&#8964;</i>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="acc-content">
+              <ul class="acc-bullets">
+                <li>Leading translational research in <strong>infectious disease</strong>, focusing on anti-bacterial synergy, bacterial resistance, and therapeutic regimen development.</li>
+                <li>Conducting <strong>HTP drug screening</strong> campaigns using clinical libraries and human/mouse cell lines for target prioritization and lead discovery.</li>
+                <li>Executing <strong>PK/PD and host immune response</strong> studies, integrating in vivo pharmacology with immuno assay readouts.</li>
+                <li>Collaborating cross-functionally with discovery biology, pharmacology, and omics teams to support go/no-go decisions in early discovery pipelines.</li>
+                <li>Abstract accepted at <strong>AACR Annual Meeting 2026</strong>; 2 abstracts submitted to ASM Microbe 2026.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-trigger-left">
+            <span class="acc-dates">Jan 2020 — Jan 2025</span>
+            <span class="acc-role">Research Assistant</span>
+            <span class="acc-org">South Dakota State University, Dept. of Pharmaceutical Sciences — Brookings, SD</span>
+          </div>
+          <i class="acc-chevron">&#8964;</i>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="acc-content">
+              <ul class="acc-bullets">
+                <li>Designed and characterized <strong>5 preclinical mouse/rat models</strong>: diet-induced obesity (DIO), orthotopic TNBC, AOM/DSS colorectal cancer, and MNU-induced breast cancer.</li>
+                <li>Executed <strong>in vivo metabolic phenotyping</strong>: GTT, OGTT, IPGTT, ITT, indirect calorimetry (CLAMS), MRI body composition, and plasma insulin ELISA.</li>
+                <li>Performed <strong>IHC (19 biomarkers), IF (8 biomarkers)</strong>, and multiplex immunostaining to study TME remodeling and pharmacodynamic response.</li>
+                <li>Led <strong>digital pathology and spatial image analysis</strong> using Visiopharm and ImageJ for reproducible biomarker quantification.</li>
+                <li>Supported <strong>HTS campaigns</strong> and target validation assays; performed Western blot, PCR, ELISA, and SPR.</li>
+                <li>Developed <strong>3T3-L1 / PY230 co-culture models</strong> to study obesity-associated hypoxia-induced inflammation in tumor.</li>
+                <li>Managed lab operations as <strong>Facility Manager</strong> and Radioisotope Laboratory Manager (2020–2024).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-trigger-left">
+            <span class="acc-dates">May 2019 — Dec 2019</span>
+            <span class="acc-role">Research Assistant (Contract)</span>
+            <span class="acc-org">South Dakota State University, Dept. of Pharmaceutical Sciences — Brookings, SD</span>
+          </div>
+          <i class="acc-chevron">&#8964;</i>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="acc-content">
+              <ul class="acc-bullets">
+                <li>Contributed to preclinical research projects in pharmaceutical sciences as a contract researcher prior to full appointment.</li>
+                <li>Supported in vivo study execution, tissue collection, and laboratory protocols across active research projects.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-trigger-left">
+            <span class="acc-dates">Jan 2018 — Apr 2019</span>
+            <span class="acc-role">Graduate Research Assistant</span>
+            <span class="acc-org">South Dakota State University, Dept. of Microbiology — Brookings, SD</span>
+          </div>
+          <i class="acc-chevron">&#8964;</i>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="acc-content">
+              <ul class="acc-bullets">
+                <li>Conducted microbiological research supporting gut microbiota and colon carcinogenesis studies.</li>
+                <li>Contributed to research on <strong>fermented diet interventions</strong> and inflammation-associated colorectal cancer, published in <em>Molecular Carcinogenesis</em>.</li>
+                <li>Presented research at SDSU Allied Health Sciences Annual Research Symposium — awarded <strong>Best Research Poster Presenter</strong>.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-trigger-left">
+            <span class="acc-dates">Aug 2015 — Dec 2017</span>
+            <span class="acc-role">Research Associate</span>
+            <span class="acc-org">University of Chittagong — Chittagong, Bangladesh</span>
+          </div>
+          <i class="acc-chevron">&#8964;</i>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="acc-content">
+              <ul class="acc-bullets">
+                <li>Conducted independent wet-lab research in pharmacology and biochemistry.</li>
+                <li>Co-authored research on <strong>Trihydroxybenzoic Acid</strong> as an antioxidant plant metabolite inhibiting cancer cell growth in vitro (<em>Free Radicals and Antioxidants</em>).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="acc-item">
+        <button class="acc-trigger" aria-expanded="false">
+          <div class="acc-trigger-left">
+            <span class="acc-dates">May 2015 — Jul 2015</span>
+            <span class="acc-role">Industrial Intern</span>
+            <span class="acc-org">GlaxoSmithKline (GSK) — Chittagong, Bangladesh</span>
+          </div>
+          <i class="acc-chevron">&#8964;</i>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <div class="acc-content">
+              <ul class="acc-bullets">
+                <li>Gained hands-on pharmaceutical industry experience at a global top-tier pharma company.</li>
+                <li>Exposure to <strong>industrial drug manufacturing</strong>, quality control, and regulated laboratory practices.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /accordion -->
+
+    <!-- LEADERSHIP -->
+    <div class="leadership-section">
+      <p class="leadership-label">Leadership &amp; Management</p>
+      <div class="leadership-list">
+        <div class="leadership-item">
+          <span class="leadership-title">Laboratory Facility Manager</span>
+          <span class="leadership-meta">SDSU Pharmaceutical Sciences · 2021–2023</span>
+        </div>
+        <div class="leadership-item">
+          <span class="leadership-title">Radioisotope Laboratory Manager</span>
+          <span class="leadership-meta">South Dakota State University · 2020–2024</span>
+        </div>
+        <div class="leadership-item">
+          <span class="leadership-title">President, AAPS Student Chapter</span>
+          <span class="leadership-meta">South Dakota State University · 2022–2023</span>
+        </div>
+      </div>
+    </div>      <div>
+      </div>
+    </div>
+
+    <!-- FOOTER NAV -->
+    <div class="footer-nav">
+      <a href="index.html">
+        <span class="fnl-label">← Back</span>
+        <span class="fnl-title">Home</span>
+      </a>
+      <a href="education.html" class="next">
+        <span class="fnl-label">Next →</span>
+        <span class="fnl-title">Education</span>
+      </a>
+    </div>
+
+  </div><!-- /page -->
+
+  <script>
+    // Hamburger menu
+    const btn     = document.getElementById('menuBtn');
+    const overlay = document.getElementById('menuOverlay');
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('open');
+      overlay.classList.toggle('open');
+    });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target.classList.contains('menu-hint')) {
+        btn.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        btn.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+    });
+
+    // Accordion
+    document.querySelectorAll('.acc-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const item = trigger.closest('.acc-item');
+        const isOpen = item.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.acc-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.acc-trigger').setAttribute('aria-expanded', 'false');
+        });
+
+        // Open clicked if it was closed
+        if (!isOpen) {
+          item.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

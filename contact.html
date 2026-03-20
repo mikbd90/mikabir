@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Md Imtiazul Kabir, PhD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --black: #111111;
+      --gray:  #555555;
+      --light: #e0e0e0;
+      --red:   #cc0000;
+      --nav-h: 64px;
+      --bg:    #f0f2f2;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--black);
+      font-family: 'Barlow', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ───────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 44px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--light);
+      z-index: 200;
+    }
+    .nav-logo { font-weight: 900; font-size: 26px; letter-spacing: -0.03em; color: var(--black); text-decoration: none; }
+    .nav-logo span { color: var(--red); }
+
+    .hamburger {
+      width: 44px; height: 44px; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; gap: 6px;
+      cursor: pointer; background: none; border: none; z-index: 300;
+    }
+    .hamburger span { display: block; width: 26px; height: 2px; background: var(--black); transition: all 0.3s ease; transform-origin: center; }
+    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+    .menu-overlay {
+      position: fixed; top: 0; right: -100%; width: 360px; height: 100vh;
+      background: var(--black); z-index: 250; display: flex; flex-direction: column;
+      justify-content: center; padding: 80px 56px;
+      transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .menu-overlay.open { right: 0; }
+    .menu-overlay ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .menu-overlay ul li { overflow: hidden; }
+    .menu-overlay ul li a {
+      font-weight: 800; font-size: 26px; letter-spacing: -0.01em;
+      color: var(--white); text-decoration: none; line-height: 1.3;
+      display: block; transform: translateY(100%); transition: color 0.2s;
+    }
+    .menu-overlay.open ul li a { animation: slideUp 0.4s forwards; }
+    .menu-overlay ul li:nth-child(1) a { animation-delay: 0.05s; }
+    .menu-overlay ul li:nth-child(2) a { animation-delay: 0.10s; }
+    .menu-overlay ul li:nth-child(3) a { animation-delay: 0.15s; }
+    .menu-overlay ul li:nth-child(4) a { animation-delay: 0.20s; }
+    .menu-overlay ul li:nth-child(5) a { animation-delay: 0.25s; }
+    .menu-overlay ul li:nth-child(6) a { animation-delay: 0.30s; }
+    .menu-overlay ul li a:hover { color: var(--red); }
+    .menu-num { font-size: 11px; font-weight: 400; color: #555; letter-spacing: 0.1em; margin-right: 10px; }
+    .menu-hint { margin-top: 48px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: #444; }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+
+    /* ── PAGE ──────────────────────────────── */
+    .page {
+      padding-top: var(--nav-h);
+      max-width: 960px;
+      margin: 0 auto;
+      padding-left: 44px;
+      padding-right: 44px;
+      padding-bottom: 100px;
+    }
+
+    /* ── PAGE HEADER ───────────────────────── */
+    .page-header {
+      padding-top: 64px; padding-bottom: 32px;
+      border-bottom: 1px solid var(--black);
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .page-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .page-eyebrow::before {
+      content: ''; display: inline-block;
+      width: 16px; height: 16px; background: var(--red); flex-shrink: 0;
+    }
+    .page-title {
+      font-weight: 400; font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.0; letter-spacing: -0.01em;
+      color: var(--black); margin-bottom: 28px; white-space: nowrap;
+    }
+    .page-intro {
+      font-size: 18px; font-weight: 400; color: var(--black);
+      line-height: 1.6; max-width: 620px;
+    }
+
+    /* ── CONTACT DETAILS ───────────────────── */
+    .contact-list { margin-top: 0; }
+
+    .contact-item {
+      border-bottom: 1px solid var(--black);
+      padding: 24px 0;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 32px;
+      opacity: 0;
+      animation: fadeUp 0.5s forwards;
+      text-decoration: none;
+    }
+    .contact-item:first-child { border-top: 1px solid var(--black); margin-top: 48px; }
+    .contact-item:nth-child(1) { animation-delay: 0.25s; }
+    .contact-item:nth-child(2) { animation-delay: 0.33s; }
+    .contact-item:nth-child(3) { animation-delay: 0.41s; }
+    .contact-item:nth-child(4) { animation-delay: 0.49s; }
+
+    a.contact-item { cursor: pointer; transition: background 0.2s; }
+    a.contact-item:hover { background: rgba(0,0,0,0.03); padding-left: 8px; padding-right: 8px; margin-left: -8px; margin-right: -8px; }
+    a.contact-item:hover .contact-arrow { transform: translateX(4px); color: var(--red); }
+
+    .contact-left {}
+    .contact-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gray); margin-bottom: 6px;
+    }
+    .contact-value {
+      font-weight: 700; font-size: clamp(16px, 2vw, 22px);
+      letter-spacing: -0.01em; color: var(--black); line-height: 1.2;
+    }
+
+    .contact-arrow {
+      font-size: 20px; color: var(--black);
+      transition: transform 0.2s, color 0.2s; flex-shrink: 0;
+    }
+
+    /* ── SECTION LABEL ─────────────────────── */
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--gray);
+      padding-top: 56px;
+      opacity: 0; animation: fadeUp 0.5s forwards;
+    }
+
+    /* ── PROFILES GRID ─────────────────────── */
+    .profiles-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--black); margin-top: 16px;
+      opacity: 0; animation: fadeUp 0.5s 0.5s forwards;
+    }
+    .profile-card {
+      padding: 28px 24px;
+      border-right: 1px solid var(--black);
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .profile-card:last-child { border-right: none; }
+    .profile-card:hover { background: rgba(0,0,0,0.04); }
+    .profile-card:hover .profile-arrow { transform: translateX(4px); color: var(--red); }
+
+    .profile-platform {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--red);
+    }
+    .profile-name {
+      font-weight: 900; font-size: clamp(18px, 2.2vw, 26px);
+      letter-spacing: -0.02em; color: var(--black); line-height: 1.1;
+    }
+    .profile-handle {
+      font-size: 12px; font-weight: 400; color: var(--gray); line-height: 1.4;
+    }
+    .profile-arrow {
+      font-size: 18px; color: var(--black);
+      transition: transform 0.2s, color 0.2s; align-self: flex-end;
+    }
+
+    /* ── LOCATION ──────────────────────────── */
+    .location-block {
+      margin-top: 56px;
+      border-top: 1px solid var(--black);
+      border-bottom: 1px solid var(--black);
+      padding: 32px 0;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 32px;
+      opacity: 0; animation: fadeUp 0.5s 0.6s forwards;
+    }
+    .location-left {}
+    .location-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gray); margin-bottom: 8px;
+    }
+    .location-value {
+      font-weight: 900; font-size: clamp(20px, 2.5vw, 32px);
+      letter-spacing: -0.02em; color: var(--black); line-height: 1.1;
+    }
+    .location-sub {
+      font-size: 14px; font-weight: 400; color: var(--gray);
+      margin-top: 6px;
+    }
+    .location-right {
+      font-size: 13px; font-weight: 400; color: var(--gray);
+      line-height: 1.6; max-width: 280px; text-align: right;
+    }
+    .location-right strong { color: var(--black); font-weight: 700; }
+
+    /* ── FOOTER NAV ────────────────────────── */
+    .footer-nav {
+      display: flex; justify-content: space-between;
+      margin-top: 64px; border-top: 1px solid var(--black); padding-top: 32px;
+    }
+    .footer-nav a { text-decoration: none; display: flex; flex-direction: column; gap: 4px; transition: opacity 0.2s; }
+    .footer-nav a:hover { opacity: 0.6; }
+    .fnl-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gray); }
+    .fnl-title { font-weight: 900; font-size: 22px; letter-spacing: -0.02em; color: var(--black); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .page { padding-left: 20px; padding-right: 20px; }
+      .menu-overlay { width: 100%; }
+      .contact-item { flex-direction: column; gap: 8px; }
+      .contact-arrow { display: none; }
+      .profiles-grid { grid-template-columns: 1fr; }
+      .profile-card { border-right: none; border-bottom: 1px solid var(--black); }
+      .profile-card:last-child { border-bottom: none; }
+      .location-block { flex-direction: column; align-items: flex-start; }
+      .location-right { text-align: left; }
+      .footer-nav { flex-direction: column; gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="index.html">Kabir<span>.</span></a>
+    <button class="hamburger" id="menuBtn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- SLIDE MENU -->
+  <div class="menu-overlay" id="menuOverlay">
+    <ul>
+      <li><a href="index.html"><span class="menu-num">01</span>Home</a></li>
+      <li><a href="experience.html"><span class="menu-num">02</span>Experience</a></li>
+      <li><a href="education.html"><span class="menu-num">03</span>Education</a></li>
+      <li><a href="research.html"><span class="menu-num">04</span>Research</a></li>
+      <li><a href="training.html"><span class="menu-num">05</span>Training &amp; Skills</a></li>
+      <li><a href="contact.html"><span class="menu-num">06</span>Contact</a></li>
+    </ul>
+    <p class="menu-hint">Click anywhere to close</p>
+  </div>
+
+  <div class="page">
+
+    <!-- PAGE HEADER -->
+    <header class="page-header">
+      <p class="page-eyebrow">06 — Get in Touch</p>
+      <h1 class="page-title">Contact</h1>
+      <p class="page-intro">Open to research collaborations, speaking opportunities, and professional inquiries. Feel free to reach out directly.</p>
+    </header>
+
+    <!-- CONTACT DETAILS -->
+    <div class="contact-list">
+
+      <a class="contact-item" href="/cdn-cgi/l/email-protection#763b321f1b021f170c031a581d17141f04360302020f1a130458131203">
+        <div class="contact-left">
+          <div class="contact-label">Email</div>
+          <div class="contact-value"><span class="__cf_email__" data-cfemail="470a032e2a332e263d322b692c26252e35073233333e2b223569222332">[email&#160;protected]</span></div>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+
+      <a class="contact-item" href="https://www.linkedin.com/in/md-imtiazul-kabir-2018t2023/" target="_blank" rel="noopener">
+        <div class="contact-left">
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value">md-imtiazul-kabir-2018t2023</div>
+        </div>
+        <span class="contact-arrow">→</span>
+      </a>
+
+      <div class="contact-item">
+        <div class="contact-left">
+          <div class="contact-label">Mailing Address</div>
+          <div class="contact-value">1222 Carol Ln, Tyler, TX 75701</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ONLINE PROFILES -->
+    <p class="section-label" style="animation-delay:0.45s;">Online Profiles</p>
+    <div class="profiles-grid">
+
+      <a class="profile-card" href="https://www.linkedin.com/in/md-imtiazul-kabir-2018t2023/" target="_blank" rel="noopener">
+        <div>
+          <div class="profile-platform">LinkedIn</div>
+          <div class="profile-name">Md Imtiazul Kabir</div>
+          <div class="profile-handle">1,100+ followers · 500+ connections</div>
+        </div>
+        <span class="profile-arrow">→</span>
+      </a>
+
+      <a class="profile-card" href="https://scholar.google.com/citations?user=DKYb97AAAAAJ" target="_blank" rel="noopener">
+        <div>
+          <div class="profile-platform">Google Scholar</div>
+          <div class="profile-name">MD. Imtiazul Kabir</div>
+          <div class="profile-handle">297 citations · h-index 9 · i10-index 9</div>
+        </div>
+        <span class="profile-arrow">→</span>
+      </a>
+
+      <a class="profile-card" href="https://www.webofscience.com" target="_blank" rel="noopener">
+        <div>
+          <div class="profile-platform">Web of Science</div>
+          <div class="profile-name">Web of Science Profile</div>
+          <div class="profile-handle">Peer-reviewed publications indexed</div>
+        </div>
+        <span class="profile-arrow">→</span>
+      </a>
+
+    </div>
+
+    <!-- LOCATION -->
+    <div class="location-block">
+      <div class="location-left">
+        <div class="location-label">Current Location</div>
+        <div class="location-value">Tyler, Texas</div>
+        <div class="location-sub">United States · UTC−6</div>
+      </div>
+      <div class="location-right">
+        <strong>UT Health East Texas</strong><br>
+        University of Texas at Tyler<br>
+        School of Medicine<br>
+        Tyler, TX
+      </div>
+    </div>
+
+    <!-- FOOTER NAV -->
+    <div class="footer-nav">
+      <a href="training.html">
+        <span class="fnl-label">← Back</span>
+        <span class="fnl-title">Training &amp; Skills</span>
+      </a>
+      <a href="index.html">
+        <span class="fnl-label">Back to top</span>
+        <span class="fnl-title">Home</span>
+      </a>
+    </div>
+
+  </div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    const btn = document.getElementById('menuBtn');
+    const overlay = document.getElementById('menuOverlay');
+    btn.addEventListener('click', () => { btn.classList.toggle('open'); overlay.classList.toggle('open'); });
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target.classList.contains('menu-hint')) {
+        btn
